@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Solar Loop : démonter un panneau solaire, couche par couche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF; --ink:#000000; --ink-2:#4A4A4A; --rule:#E4E1E1;
+  --signal:#FF0000; --signal-text:#C80000; --soft:#F4F4F4;
+  --floor:rgba(0,0,0,.18);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]){ --paper:#0A0A0A; --ink:#FFFFFF; --ink-2:#B4B4B4; --rule:#2E2E2E; --signal:#FF2A2A; --signal-text:#FF5A5A; --soft:#161616; --floor:rgba(0,0,0,.6); color-scheme:dark; }
+}
+:root[data-theme="dark"]{ --paper:#0A0A0A; --ink:#FFFFFF; --ink-2:#B4B4B4; --rule:#2E2E2E; --signal:#FF2A2A; --signal-text:#FF5A5A; --soft:#161616; --floor:rgba(0,0,0,.6); color-scheme:dark; }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:"Archivo","Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0}
+
+header.intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:28px}
+h1{font-stretch:125%;font-weight:850;font-size:clamp(28px,3.6vw,46px);line-height:1.08;letter-spacing:-.015em;margin:0}
+.intro p{margin:0;color:var(--ink-2);max-width:46ch}
+
+.modes{display:inline-flex;border:1px solid var(--rule);border-radius:999px;padding:3px;margin:8px 0 0}
+.modes button{font:inherit;font-weight:650;font-size:15px;border:0;background:transparent;color:var(--ink);padding:9px 18px;border-radius:999px;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.modes button:focus-visible,.replay:focus-visible,.rows li:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+
+.stagewrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:center}
+.scene{position:relative;height:640px;perspective:1900px;perspective-origin:50% 40%;overflow:hidden}
+.fit{position:absolute;left:44%;top:45%;width:260px;height:424px;margin:-212px 0 0 -130px;transform-style:preserve-3d;transform:scale(var(--k,.86))}
+.module{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(57deg) rotateZ(-34deg);transition:transform 1.6s cubic-bezier(.2,.7,.1,1)}
+.scene.done .module{transform:rotateX(57deg) rotateZ(-30deg)}
+.layer{position:absolute;inset:0;transform:translateZ(var(--z));transition:transform 1.35s cubic-bezier(.2,.75,.15,1),opacity .5s;transition-delay:var(--d,0s)}
+.exploded .layer{transform:translate3d(var(--tx,0px),var(--ty,0px),var(--zx)) scale(var(--sx,1))}
+.face{position:absolute;inset:0;transition:opacity .7s ease,filter .5s}
+.face.mat{opacity:0;background-size:cover;background-position:center}
+.layer.m .face.mat{opacity:1}
+.layer.m .face.comp{opacity:0}
+
+.l-glass .comp{background:linear-gradient(125deg,rgba(255,255,255,.28) 0%,rgba(210,232,240,.18) 38%,rgba(255,255,255,.05) 55%,rgba(200,225,235,.3) 100%);border:1px solid rgba(160,190,200,.7)}
+.l-eva .comp{background:rgba(245,248,248,.14);border:1px solid rgba(200,205,208,.7)}
+.l-back .comp{background:#EEEFEF;border:1px solid #CFD2D4}
+.l-cells .comp{border:1px solid #C9CDD2}
+.l-frame .comp,.l-frame .mat{clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,11px 11px,11px calc(100% - 11px),calc(100% - 11px) calc(100% - 11px),calc(100% - 11px) 11px,11px 11px)}
+.l-frame .comp{background:linear-gradient(135deg,#E9ECEE,#9EA6AD 45%,#D8DDE0 70%,#8E959C)}
+.l-jbox .comp,.l-jbox .mat{left:92px;right:92px;top:30px;bottom:auto;height:70px;border-radius:4px}
+.l-jbox .comp{background:#161616;box-shadow:inset 0 0 0 2px #333}
+.l-jbox .comp::before,.l-jbox .comp::after{content:"";position:absolute;top:26px;width:44px;height:6px;border-radius:3px;background:#161616}
+.l-jbox .comp::before{left:-40px;background:#B3262E}
+.l-jbox .comp::after{right:-40px}
+.l-jbox .mat{left:60px;right:60px;top:10px;height:110px;border-radius:50%}
+.l-floor .comp{background:radial-gradient(closest-side,var(--floor),transparent);transform:scale(1.35)}
+.layer.dim{opacity:.16}
+
+.scan{position:absolute;left:-8px;right:-8px;height:18px;top:-20px;background:linear-gradient(180deg,transparent,rgba(255,0,0,.85) 45%,rgba(255,0,0,.85) 55%,transparent);opacity:0}
+.scanning .scan{animation:scan 1.5s cubic-bezier(.45,0,.55,1) forwards}
+@keyframes scan{0%{top:-20px;opacity:1}92%{top:420px;opacity:1}100%{top:430px;opacity:0}}
+.l-cells.el .comp{filter:brightness(2.4) saturate(.2) contrast(1.1)}
+.fix{position:absolute;width:34px;height:18px;background:#111;border:3px solid var(--signal);border-radius:2px;opacity:0;transform:scale(.4);transition:opacity .4s,transform .4s}
+.fixed .fix{opacity:1;transform:scale(1)}
+
+.badge{position:absolute;left:24px;bottom:22px;font-weight:650;font-size:15px;padding:8px 14px;background:var(--ink);color:var(--paper);border-radius:4px;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;max-width:calc(100% - 48px)}
+.badge.on{opacity:1;transform:none}
+.replay{position:absolute;right:20px;top:18px;font:inherit;font-size:14px;font-weight:600;background:var(--paper);color:var(--ink);border:1px solid var(--rule);border-radius:999px;padding:6px 14px;cursor:pointer}
+
+.panel h2{font-stretch:112%;font-weight:800;font-size:22px;line-height:1.15;margin:0 0 6px}
+.panel .lede{color:var(--ink-2);margin:0 0 18px;font-size:15px}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.rows li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);transition:opacity .4s;cursor:default}
+.rows.live li{opacity:.35}
+.rows.live li.on,.rows.live li.past{opacity:1}
+.sw{font-style:normal;width:52px;height:52px;border-radius:50%;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);position:relative}
+.rows li.on .sw{box-shadow:0 0 0 3px var(--signal)}
+.rows b{display:block;font-weight:700;font-size:17px;line-height:1.25}
+.rows span{display:block;color:var(--ink-2);font-size:14.5px;line-height:1.4;margin-top:2px}
+.rows .num{display:flex;align-items:center;justify-content:center;font-stretch:125%;font-weight:850;font-size:22px;background:var(--soft);box-shadow:none}
+.rows li.on .num{background:var(--signal);color:#fff;box-shadow:none}
+
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin-top:32px;border-top:1px solid var(--rule);padding:26px 0 27px}
+.facts div{font-size:clamp(13px,1.15vw,15px);line-height:1.45;color:var(--ink-2);max-width:32ch}
+.facts strong{display:block;color:var(--ink);font-stretch:125%;font-weight:850;font-size:clamp(24px,3.4vw,42px);line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.facts .red strong{color:var(--signal-text)}
+
+@media (max-width:900px){
+  header.intro,.stagewrap{grid-template-columns:1fr;gap:20px}
+  .scene{height:480px}
+  .fit{--k:.6;left:38%}
+  .modes button{font-size:14px;padding:8px 12px;white-space:nowrap}
+}
+@media (max-width:700px){
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+}
+@media (max-width:520px){
+  .facts{grid-template-columns:1fr;gap:22px}
+  .facts strong{font-size:30px}
+  .scene{height:400px}
+  .fit{--k:.48;left:34%}
+  .badge{left:14px;bottom:14px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  .module,.layer,.face,.badge,.fix,.rows li{transition:none!important}
+  .scanning .scan{animation:none}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="intro">
+    <div>
+      <h1>Démonter un panneau solaire, couche par couche</h1>
+    </div>
+    <div>
+      <p>Les panneaux solaires en fin de vie partent aujourd’hui à l’étranger pour être recyclés. Solar Loop les traite en Suisse : les panneaux solaires encore performants sont reconditionnés, les autres sont démontés et leurs matières retrouvent une filière.</p>
+      <div class="modes" role="group" aria-label="Parcours du panneau solaire">
+        <button type="button" data-mode="recycle" aria-pressed="true">Recycler les matières</button>
+        <button type="button" data-mode="upcycle" aria-pressed="false">Réemployer le panneau solaire</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="stagewrap">
+    <div class="scene" id="scene" aria-hidden="true">
+      <div class="fit"><div class="module" id="module">
+        <div class="layer l-floor" style="--z:-40px;--zx:-270px"><div class="face comp"></div></div>
+        <div class="layer l-frame" data-mat="aluminium" style="--z:0px;--zx:-190px;--sx:1.04;--d:.28s"><div class="face comp"></div><div class="face mat"></div></div>
+        <div class="layer l-jbox" data-mat="cables" style="--z:-2px;--zx:-70px;--tx:250px;--ty:330px;--d:.22s"><div class="face comp"></div><div class="face mat"></div></div>
+        <div class="layer l-back" data-mat="polymers" style="--z:2px;--zx:-35px;--d:.16s"><div class="face comp">
+          
+        </div><div class="face mat"></div></div>
+        <div class="layer l-cells" data-mat="siliconSilver" style="--z:4px;--zx:55px;--d:.1s"><div class="face comp"></div><div class="face mat"></div></div>
+        <div class="layer l-eva" data-mat="polymers" style="--z:6px;--zx:140px;--d:.05s"><div class="face comp"></div><div class="face mat"></div></div>
+        <div class="layer l-glass" data-mat="glass" style="--z:8px;--zx:235px;--d:0s"><div class="face comp"><i class="scan"></i><i class="fix" style="left:-30px;top:80px"></i><i class="fix" style="right:-30px;top:80px"></i><i class="fix" style="left:-30px;bottom:80px"></i><i class="fix" style="right:-30px;bottom:80px"></i></div><div class="face mat"></div></div>
+      </div></div>
+      <div class="badge" id="badge"></div>
+      <button class="replay" id="replay" type="button" aria-hidden="false">Rejouer</button>
+    </div>
+
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </section>
+
+  <section class="facts">
+    <div class="red"><strong>&gt; 93 %</strong>de la masse des panneaux solaires réutilisée comme matière première ou valorisée en énergie thermique</div>
+    <div><strong>8’000 t</strong>de panneaux solaires à recycler par an d’ici 2030</div>
+    <div><strong>600’000</strong>panneaux solaires par an : capacité d’une ligne de recyclage automatisée</div>
+  </section>
+</main>
+
+<script>
+// Générateurs de textures matières (SVG procédural, graine fixe)
+const TX = (() => {
+  const rng = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+  const svg = (w, h, body, defs = '') => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid slice"><defs>${defs}</defs>${body}</svg>`;
+  const poly = (r, cx, cy, rad, n, stretch = 1, rot = 0) => {
+    let p = [];
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + r() * 0.5;
+      const d = rad * (0.55 + r() * 0.6);
+      let x = Math.cos(a) * d * stretch, y = Math.sin(a) * d;
+      const xr = x * Math.cos(rot) - y * Math.sin(rot), yr = x * Math.sin(rot) + y * Math.cos(rot);
+      p.push((cx + xr).toFixed(1) + ',' + (cy + yr).toFixed(1));
+    }
+    return p.join(' ');
+  };
+
+  function glass(w = 400, h = 400, seed = 11) {
+    const r = rng(seed); let b = `<rect width="${w}" height="${h}" fill="#CFE2DC"/>`;
+    const fills = ['#E8F3EF', '#BFD8D1', '#D9EBE6', '#A9C9C1', '#F4FAF8', '#C6DDD7'];
+    const n = Math.round(w * h / 260);
+    for (let i = 0; i < n; i++) {
+      const x = r() * w, y = r() * h, s = 5 + r() * 13;
+      b += `<polygon points="${poly(r, x, y, s, 4 + Math.floor(r() * 3), 1, r() * 6)}" fill="${pick(r, fills)}" stroke="#FFFFFF" stroke-opacity="${(0.3 + r() * 0.5).toFixed(2)}" stroke-width="0.8"/>`;
+      if (r() > 0.8) b += `<circle cx="${(x - s * 0.2).toFixed(1)}" cy="${(y - s * 0.3).toFixed(1)}" r="${(1 + r() * 1.6).toFixed(1)}" fill="#FFFFFF" opacity=".9"/>`;
+    }
+    return svg(w, h, b);
+  }
+
+  function aluminium(w = 400, h = 400, seed = 23) {
+    const r = rng(seed);
+    const defs = `<linearGradient id="al1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4E8EB"/><stop offset=".5" stop-color="#A7AEB5"/><stop offset="1" stop-color="#D5DADE"/></linearGradient><linearGradient id="al2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8C939A"/><stop offset=".45" stop-color="#EEF1F3"/><stop offset="1" stop-color="#9AA1A8"/></linearGradient>`;
+    let b = `<rect width="${w}" height="${h}" fill="#6F767D"/>`;
+    const n = Math.round(w * h / 380);
+    for (let i = 0; i < n; i++) {
+      const x = r() * w, y = r() * h, s = 7 + r() * 16;
+      b += `<polygon points="${poly(r, x, y, s, 5, 1.8 + r() * 1.4, r() * 6)}" fill="url(#al${r() > .5 ? 1 : 2})" stroke="#5C636A" stroke-width=".6"/>`;
+    }
+    return svg(w, h, b, defs);
+  }
+
+  function copper(w = 400, h = 400, seed = 37) {
+    const r = rng(seed); let b = `<rect width="${w}" height="${h}" fill="#6B3314"/>`;
+    const fills = ['#B8652B', '#D98A4E', '#9C4F1F', '#E3A06B', '#C4743A', '#8A431A'];
+    const n = Math.round(w * h / 55);
+    for (let i = 0; i < n; i++) {
+      const x = r() * w, y = r() * h, s = 2.5 + r() * 4.5, c = pick(r, fills);
+      b += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${s.toFixed(1)}" ry="${(s * (0.6 + r() * 0.4)).toFixed(1)}" fill="${c}" transform="rotate(${Math.floor(r() * 180)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+      if (r() > 0.7) b += `<circle cx="${(x - s * .3).toFixed(1)}" cy="${(y - s * .3).toFixed(1)}" r="${(s * .3).toFixed(1)}" fill="#F5C49A" opacity=".75"/>`;
+    }
+    return svg(w, h, b);
+  }
+
+  function polymers(w = 400, h = 400, seed = 41) {
+    const r = rng(seed); let b = `<rect width="${w}" height="${h}" fill="#2E2F33"/>`;
+    const fills = ['#4A4C52', '#3A3B40', '#5E6067', '#26272B', '#6D7078', '#44464C'];
+    const n = Math.round(w * h / 120);
+    for (let i = 0; i < n; i++) {
+      const x = r() * w, y = r() * h, s = 3 + r() * 8;
+      b += `<polygon points="${poly(r, x, y, s, 5 + Math.floor(r() * 3), 1 + r() * .8, r() * 6)}" fill="${pick(r, fills)}"/>`;
+    }
+    return svg(w, h, b);
+  }
+
+  function siliconSilver(w = 400, h = 400, seed = 53) {
+    const r = rng(seed); let b = `<rect width="${w}" height="${h}" fill="#262D3A"/>`;
+    const fills = ['#343D4E', '#1C222C', '#404A5D', '#2D3544', '#4B566B'];
+    const n = Math.round(w * h / 14);
+    for (let i = 0; i < n; i++) b += `<circle cx="${(r() * w).toFixed(1)}" cy="${(r() * h).toFixed(1)}" r="${(0.8 + r() * 1.9).toFixed(1)}" fill="${pick(r, fills)}"/>`;
+    const m = Math.round(w * h / 420);
+    for (let i = 0; i < m; i++) { const x = r() * w, y = r() * h; b += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.9 + r() * 1.5).toFixed(1)}" fill="#E9ECEF"/>`; if (r() > .6) b += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="#FFFFFF" opacity=".18"/>`; }
+    return svg(w, h, b);
+  }
+
+  function cables(w = 400, h = 400, seed = 67) {
+    const r = rng(seed); let b = `<rect width="${w}" height="${h}" fill="#1B1B1D"/>`;
+    const cols = ['#0E0E0F', '#3A3A3D', '#B3262E', '#1F4E8C', '#0E0E0F', '#5A5A5E'];
+    const n = Math.round(w * h / 2600);
+    for (let i = 0; i < n; i++) {
+      const x0 = r() * w, y0 = r() * h, x1 = r() * w, y1 = r() * h;
+      const d = `M${x0.toFixed(0)},${y0.toFixed(0)} C${(r() * w).toFixed(0)},${(r() * h).toFixed(0)} ${(r() * w).toFixed(0)},${(r() * h).toFixed(0)} ${x1.toFixed(0)},${y1.toFixed(0)}`;
+      const t = 6 + r() * 7;
+      b += `<path d="${d}" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="${(t + 2).toFixed(1)}" stroke-linecap="round"/>`;
+      b += `<path d="${d}" fill="none" stroke="${pick(r, cols)}" stroke-width="${t.toFixed(1)}" stroke-linecap="round"/>`;
+      b += `<path d="${d}" fill="none" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="${(t * .25).toFixed(1)}" stroke-linecap="round" transform="translate(-1.5 -1.5)"/>`;
+      if (r() > .45) { b += `<circle cx="${x1.toFixed(0)}" cy="${y1.toFixed(0)}" r="${(t * .42).toFixed(1)}" fill="#D98A4E"/><circle cx="${x1.toFixed(0)}" cy="${y1.toFixed(0)}" r="${(t * .18).toFixed(1)}" fill="#F5C49A"/>`; }
+    }
+    return svg(w, h, b);
+  }
+
+  function cells(w = 260, h = 424) {
+    // cellules monocristallines, doigts argent, rubans cuivre étamés
+    const cols = 6, rows = 10, g = 2.2, m = 7;
+    const cw = (w - 2 * m - (cols - 1) * g) / cols, ch = (h - 2 * m - (rows - 1) * g) / rows;
+    let b = `<rect width="${w}" height="${h}" fill="#F3F4F4"/>`;
+    const defs = `<linearGradient id="ce" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A3A5C"/><stop offset=".55" stop-color="#16213A"/><stop offset="1" stop-color="#22314F"/></linearGradient>`;
+    for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+      const x = m + i * (cw + g), y = m + j * (ch + g), c = 4;
+      b += `<path d="M${x + c},${y} h${cw - 2 * c} l${c},${c} v${ch - 2 * c} l${-c},${c} h${-(cw - 2 * c)} l${-c},${-c} v${-(ch - 2 * c)} z" fill="url(#ce)"/>`;
+      for (let k = 1; k < 9; k++) b += `<line x1="${x + 1}" y1="${(y + k * ch / 9).toFixed(1)}" x2="${x + cw - 1}" y2="${(y + k * ch / 9).toFixed(1)}" stroke="#AEB6C2" stroke-width=".35" opacity=".7"/>`;
+    }
+    for (let i = 0; i < cols; i++) for (const f of [.3, .7]) { const x = m + i * (cw + g) + cw * f; b += `<line x1="${x.toFixed(1)}" y1="${m - 3}" x2="${x.toFixed(1)}" y2="${h - m + 3}" stroke="#D7DBE0" stroke-width="1.1"/>`; }
+    return svg(w, h, b, defs);
+  }
+
+  const uri = s => 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s) + '")';
+  return { glass, aluminium, copper, polymers, siliconSilver, cables, cells, uri };
+})();
+
+(() => {
+  const $ = s => document.querySelector(s);
+  const scene = $('#scene'), mod = $('#module'), badge = $('#badge'), panel = $('#panel');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // textures
+  const T = {};
+  ['glass','aluminium','copper','polymers','siliconSilver','cables'].forEach(k => T[k] = TX.uri(TX[k](420, 420)));
+  mod.querySelector('.l-cells .comp').style.backgroundImage = TX.uri(TX.cells());
+  mod.querySelectorAll('.layer[data-mat]').forEach(l => l.querySelector('.mat').style.backgroundImage = T[l.dataset.mat]);
+
+  const DATA = {
+    recycle: {
+      title: 'Six couches, cinq filières',
+      lede: 'Le panneau solaire est séparé mécaniquement. Chaque matière est vendue à la filière qui la réutilise.',
+      rows: [
+        { key:'glass', sw:'glass', name:'Verre', txt:'Refondu par les verriers pour produire du verre plat.' },
+        { key:'polymers', sw:'polymers', name:'Polymères', txt:'Films d’encapsulation et face arrière, valorisés comme combustible pour des applications thermiques.' },
+        { key:'siliconSilver', sw:'siliconSilver', name:'Silicium et argent', txt:'Les cellules deviennent une poudre riche en argent, séparée sur place.' },
+        { key:'cables', sw:'cables', name:'Câbles et électronique', txt:'Triés en cuivre, repris par les fonderies, et en polymères.' },
+        { key:'aluminium', sw:'aluminium', name:'Aluminium', txt:'Le cadre part en fonderie et redevient lingot.' }
+      ]
+    },
+    upcycle: {
+      title: 'Avant de recycler, tester',
+      lede: 'Les panneaux solaires récents et en bon état ne sont pas démontés. Ils sont reconditionnés pour l’intégration au bâtiment (BIPV).',
+      rows: [
+        { key:'sort', name:'Tri à l’arrivée', txt:'Seuls les panneaux solaires les plus performants sont retenus.' },
+        { key:'scan', name:'Inspection visuelle automatique', txt:'Les panneaux solaires cassés, jaunis ou délaminés partent au recyclage.' },
+        { key:'el', name:'Test électrique', txt:'Mesures IV et électroluminescence pour vérifier la performance du panneau solaire.' },
+        { key:'frame', name:'Mise à niveau', txt:'Modification du panneau solaire pour le rendre compatible avec les nouvelles applications.' },
+        { key:'label', name:'Contrôle final et nouvel étiquetage', txt:'Le panneau solaire repart pour une nouvelle installation.' }
+      ]
+    }
+  };
+
+  let mode = 'recycle', timers = [];
+  const later = (ms, fn) => timers.push(setTimeout(fn, reduce ? 0 : ms));
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+
+  function renderPanel() {
+    const d = DATA[mode];
+    panel.innerHTML = `<h2>${d.title}</h2><p class="lede">${d.lede}</p><${mode==='upcycle'?'ol':'ul'} class="rows live">` +
+      d.rows.map((r, i) => `<li data-key="${r.key}" ${mode==='recycle'?'tabindex="0"':''}>` +
+        (mode === 'recycle' ? `<i class="sw" data-sw="${r.sw}"></i>` : `<i class="sw num">${i + 1}</i>`) +
+        `<div><b>${r.name}</b><span>${r.txt}</span></div></li>`).join('') + `</${mode==='upcycle'?'ol':'ul'}>`;
+    panel.querySelectorAll('[data-sw]').forEach(e => e.style.backgroundImage = T[e.dataset.sw]);
+    if (mode === 'recycle') panel.querySelectorAll('li').forEach(li => {
+      const on = () => { if (!scene.classList.contains('done')) return; mod.querySelectorAll('.layer[data-mat]').forEach(l => l.classList.toggle('dim', l.dataset.mat !== li.dataset.key)); };
+      const off = () => mod.querySelectorAll('.layer').forEach(l => l.classList.remove('dim'));
+      li.addEventListener('mouseenter', on); li.addEventListener('focus', on);
+      li.addEventListener('mouseleave', off); li.addEventListener('blur', off);
+    });
+  }
+  function mark(key) {
+    const lis = [...panel.querySelectorAll('li')]; let past = true;
+    lis.forEach(li => { const on = li.dataset.key === key; if (on) past = false; li.classList.toggle('on', on); li.classList.toggle('past', past && !on); });
+  }
+  function say(t) { badge.classList.remove('on'); if (!t) return; later(120, () => { badge.innerHTML = t; badge.classList.add('on'); }); }
+
+  function reset() {
+    clear();
+    scene.classList.remove('done');
+    mod.classList.add('noanim');
+    mod.querySelectorAll('.layer').forEach(l => { l.classList.remove('m', 'dim', 'el'); l.style.opacity = ''; l.style.transform = ''; });
+    mod.classList.remove('exploded', 'scanning', 'fixed');
+    say('');
+    renderPanel();
+  }
+
+  function playRecycle() {
+    reset();
+    say('Panneau solaire en fin de vie');
+    later(900, () => { mod.classList.add('exploded'); say('Séparation mécanique'); });
+    const seq = [
+      ['glass', ['.l-glass'], 'Verre'],
+      ['polymers', ['.l-eva', '.l-back'], 'Polymères'],
+      ['siliconSilver', ['.l-cells'], 'Silicium et argent'],
+      ['cables', ['.l-jbox'], 'Câbles et électronique'],
+      ['aluminium', ['.l-frame'], 'Aluminium']
+    ];
+    seq.forEach(([key, sels, label], i) => later(3600 + i * 1150, () => {
+      sels.forEach(s => mod.querySelector(s).classList.add('m')); mark(key); say(label);
+    }));
+    later(3600 + seq.length * 1150 + 300, () => {
+      mark(null); panel.querySelector('.rows').classList.remove('live');
+      scene.classList.add('done'); say('Plus de 93 % de la masse réutilisée ou valorisée');
+    });
+  }
+
+  function playUpcycle() {
+    reset();
+    const frame = mod.querySelector('.l-frame'), cells = mod.querySelector('.l-cells');
+    mark('sort'); say('Panneau solaire récent, retenu au tri');
+    later(1300, () => { mark('scan'); say('Inspection visuelle'); mod.classList.add('scanning'); });
+    later(3000, () => say('Aucun défaut visible'));
+    later(3900, () => { mark('el'); say('Électroluminescence et courbe IV'); cells.classList.add('el'); });
+    later(5400, () => { cells.classList.remove('el'); say('Performance du panneau solaire vérifiée'); });
+    later(6600, () => { mark('frame'); say('Cadre retiré, aluminium recyclé'); frame.classList.add('m'); frame.style.transform = 'translateZ(-260px) scale(1.08)'; frame.style.opacity = '.0'; });
+    later(8000, () => { mod.classList.add('fixed'); say('Fixations Climacy posées'); });
+    later(9400, () => { mark('label'); say('Prêt pour une intégration au bâtiment'); scene.classList.add('done'); });
+    later(10400, () => { mark(null); panel.querySelector('.rows').classList.remove('live'); });
+  }
+
+  const play = () => (mode === 'recycle' ? playRecycle : playUpcycle)();
+  document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => {
+    mode = b.dataset.mode;
+    document.querySelectorAll('.modes button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    play();
+  }));
+  $('#replay').addEventListener('click', play);
+
+  renderPanel();
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); setTimeout(play, 300); } }, { threshold: .35 });
+  io.observe(scene);
+  window.__SL = { play, setMode: m => { mode = m; play(); } };
+})();
+</script>
+<script>
+(() => {
+  const post = () => { const m = document.querySelector('main') || document.body; parent.postMessage({ slAnimHeight: Math.ceil(m.getBoundingClientRect().bottom + scrollY) }, '*'); };
+  addEventListener('load', post);
+  new ResizeObserver(post).observe(document.body);
+  setInterval(post, 1000);
+})();
+</script>
+</body>
+</html>
