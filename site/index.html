@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solar Loop · Recyclage intelligent des panneaux solaires</title>
+<meta name="description" content="Solar Loop développe une solution locale et intelligente de recyclage des anciens panneaux solaires.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/solarloop-accueil-poster.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,200..800&family=Plus+Jakarta+Sans:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #ffffff; color: var(--color-text); text-wrap: pretty; font-family: var(--font-body); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent); }
+
+  @media (max-width: 860px) {
+    nav.nav { flex-wrap: wrap; row-gap: 6px; padding-block: 12px; }
+    [data-stack] { grid-template-columns: 1fr !important; }
+    [data-pillar] { grid-template-columns: 1fr !important; gap: 10px !important; padding: 32px 16px !important; }
+    [data-founder] { grid-template-columns: 72px minmax(0,1fr) !important; gap: 16px !important; }
+    [data-founder] img { width: 72px !important; height: 72px !important; }
+    [data-row] { grid-template-columns: 1fr !important; gap: 2px !important; }
+    [data-form] { border-left: 0 !important; padding-left: 0 !important; border-top: 1px solid var(--rule-soft); padding-top: 32px; }
+    [data-hero] { padding: 60px 0 52px !important; }
+    h1 { max-width: none !important; margin-left: 0 !important; }
+    h1 > span { display: inline !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-hero-video] { display: none !important; } }
+  [data-hero-bg] .btn-ghost { color: #ffffff; border-color: #ffffff; }
+  [data-hero-bg] .btn-ghost:hover { color: #ffffff; background: rgba(255,255,255,0.14); }
+  [data-materials] > div:nth-child(-n+3) { border-top: 0 !important; }
+  @media (max-width: 860px) {
+    [data-materials] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+    [data-materials] > div:nth-child(3) { border-top: 1px solid var(--rule-soft) !important; }
+  }
+  @media (max-width: 560px) {
+    [data-materials] > div:nth-child(2), [data-materials] > div:nth-child(3) { border-top: 1px solid var(--rule-soft) !important; }
+    [data-materials] { grid-template-columns: 1fr !important; }
+    [data-founder] { grid-template-columns: 1fr !important; }
+    [data-founder] img { width: 64px !important; height: 64px !important; }
+  }
+
+
+
+  :root { --sec: clamp(72px, 9vw, 128px); }
+  .st { position: relative; overflow: hidden; color: var(--color-text);
+    background: radial-gradient(60% 70% at 85% 100%, rgba(236,48,19,0.07), transparent 70%), radial-gradient(45% 55% at 10% 0%, rgba(236,48,19,0.035), transparent 70%), #f8f7f7; padding: clamp(150px,16vw,220px) clamp(20px,5vw,72px) var(--sec); }
+  .po { position: relative; overflow: hidden;
+    background: radial-gradient(55% 140% at 100% 50%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 45%, transparent 75%), linear-gradient(100deg, #ec3013 0%, #ec3013 45%, #f2624a 100%); }
+  .po-waves { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .st-waves { position: absolute; left: 0; top: 0; width: 100%; height: clamp(200px,24vw,340px); pointer-events: none; }
+  .st-grid { position: relative; max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 40px clamp(24px,4vw,64px); text-align: center; }
+  .st-item { display: grid; justify-items: center; align-content: start; gap: 14px; }
+  .st-num {
+    margin: 0; font-family: var(--font-heading); font-weight: 300; font-size: clamp(44px,5.6vw,80px); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+    background: linear-gradient(90deg, #ff6a4d 0%, #c8260e 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .st-item:nth-child(2) .st-num { background-image: linear-gradient(90deg, #ec3013 0%, #b8230d 100%); }
+  .st-item:nth-child(3) .st-num { background-image: linear-gradient(90deg, #ff5a3c 0%, #ec3013 100%); }
+  .st-cap { margin: 0; font-size: 15px; line-height: 24px; color: #4a4746; max-width: 30ch; }
+  @media (max-width: 860px) { .st-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .fd { position: relative; padding: clamp(48px,6vw,80px) 0 var(--sec); border-top: 1px solid var(--rule-soft); }
+  .fd-sticky { display: grid; gap: 32px; }
+  .fd-kicker { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700); margin: 0; }
+  .fd-grid { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: clamp(28px,4vw,64px); align-items: center; }
+  .fd-photo { position: relative; margin: 0; aspect-ratio: 600 / 350; overflow: hidden; border-radius: 14px; background: var(--color-neutral-100); }
+  .fd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .fd-tag {
+    position: absolute; bottom: 16px; display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 12px 9px 14px; border: 0; cursor: pointer;
+    background: rgba(255,255,255,0.94); color: var(--color-text);
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px; letter-spacing: 0.01em;
+    box-shadow: 0 6px 20px rgba(14,10,9,0.18);
+    transition: background-color .25s ease, color .25s ease, transform .25s ease;
+  }
+  .fd-tag svg { transition: transform .25s ease; }
+  .fd-tag:hover svg { transform: translateX(3px); }
+  .fd-tag:hover { transform: translateY(-2px); }
+  .fd-tag[aria-pressed="true"] { background: var(--color-accent); color: #ffffff; }
+  .fd-tag:focus-visible, .fd-back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .fd-tag::before {
+    content: ""; position: absolute; left: 50%; top: -9px; width: 1px; height: 9px; background: rgba(255,255,255,0.94);
+  }
+  .fd-copy { position: relative; min-height: 300px; }
+  .fd-panel { position: absolute; inset: 0; display: grid; align-content: center; gap: 14px; opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .5s cubic-bezier(.2,.8,.2,1); pointer-events: none; visibility: hidden; }
+  .fd-panel.is-on { opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
+  .fd-name { margin: 0; font-family: var(--font-heading); font-weight: 800; font-size: 24px; line-height: 30px; letter-spacing: -0.01em; }
+  .fd-bio { margin: 0; font-size: 16px; line-height: 28px; max-width: 44ch; }
+  .fd-hint { margin: 8px 0 0; display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--color-accent-700); font-weight: 600; }
+  .fd-hint svg { flex: none; animation: fd-nudge 1.6s ease-in-out infinite; }
+  @keyframes fd-nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  .fd-back { justify-self: start; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--color-accent-700); }
+  .fd-back:hover { color: var(--color-text); }
+  .fd-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .fd-chips span { font-size: 12.5px; padding: 6px 10px; border: 1px solid var(--rule-soft); color: #4a4746; }
+  @media (max-width: 860px) {
+    .fd-grid { grid-template-columns: 1fr; }
+    .fd-copy { min-height: 280px; }
+    .fd-tag { font-size: 13px; padding: 8px 10px 8px 12px; bottom: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .fd-panel, .fd-tag, .fd-tag svg { transition: none; } .fd-hint svg { animation: none; } }
+  .pl-wrap { position: relative; padding: var(--sec) 0; isolation: isolate; }
+  .pl-bg {
+    position: absolute; z-index: -1; inset: 0 calc(-1 * clamp(20px,5vw,72px));
+    background:
+      radial-gradient(60% 70% at 85% 100%, rgba(236,48,19,0.07), transparent 70%),
+      radial-gradient(45% 55% at 10% 0%, rgba(236,48,19,0.035), transparent 70%),
+      #f8f7f7;
+  }
+  .pl-list { position: relative; border-top: 1px solid var(--rule-soft); }
+  .pl-row {
+    position: relative; display: grid;
+    grid-template-columns: minmax(56px,96px) minmax(0,280px) minmax(0,1fr);
+    gap: 28px clamp(24px,4vw,72px); align-items: baseline;
+    padding: 44px clamp(16px,2vw,28px); border-bottom: 1px solid var(--rule-soft);
+    transition: background-color .45s ease;
+  }
+  .pl-glow {
+    position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, #ec3013 45%, #ec3013 60%, transparent 100%);
+    opacity: 0; transform: scaleX(.4); transition: opacity .5s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .pl-row::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, #ec3013 40%, #ec3013 55%, transparent 100%);
+    opacity: 0; transform: scaleX(.4); transition: opacity .5s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+  }
+  .pl-num { margin: 0; font-family: var(--font-heading); font-weight: 800; font-size: 15px; line-height: 28px; font-variant-numeric: tabular-nums; }
+  .pl-num, .pl-title, .pl-text { color: #8f8a89 !important; transition: color .45s ease; }
+  .pl-row.is-active { background: rgba(255,255,255,0.75); }
+  .pl-row.is-active .pl-num { color: var(--color-accent) !important; }
+  .pl-row.is-active .pl-title, .pl-row.is-active .pl-text { color: var(--color-text) !important; }
+  .pl-row.is-active .pl-glow, .pl-row.is-active::before { opacity: 1; transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .pl-row, .pl-glow, .pl-row::before, .pl-num, .pl-title, .pl-text { transition: none; } }
+  .tl-step { position: relative; padding: 36px 20px 30px; text-align: center; }
+  .tl-step > p:last-child { max-width: 28ch; margin-inline: auto !important; }
+  .tl-num {
+    position: relative; z-index: 1; box-sizing: border-box;
+    width: 44px; height: 44px; margin: 0 auto 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 0; background: linear-gradient(135deg, #ff6a4d 0%, #ec3013 55%, #b8230d 100%);
+    box-shadow: 0 4px 14px rgba(236,48,19,0.22);
+    font-family: var(--font-heading); font-weight: 800; font-size: 14px; letter-spacing: 0.02em;
+    color: #ffffff; font-variant-numeric: tabular-nums;
+  }
+  .tl-line { position: absolute; top: 58px; left: 50%; right: -50%; height: 1px; background: var(--rule-soft); overflow: hidden; }
+  .tl-line::after { content: ""; position: absolute; inset: 0; background: var(--color-accent); transform-origin: left; transform: scaleX(1); }
+  .tl-step:last-child .tl-line { display: none; }
+
+  [data-timeline].tl-armed .tl-num { opacity: 0; transform: scale(0.6); }
+  [data-timeline].tl-armed .tl-line::after { transform: scaleX(0); }
+  [data-timeline].tl-play .tl-num {
+    opacity: 1; transform: scale(1);
+    transition: opacity .45s ease, transform .55s cubic-bezier(.2,.9,.3,1.25);
+    transition-delay: calc(var(--i) * 0.55s);
+  }
+  [data-timeline].tl-play .tl-line::after {
+    transform: scaleX(1);
+    transition: transform .55s cubic-bezier(.6,0,.3,1);
+    transition-delay: calc(var(--i) * 0.55s + 0.25s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-timeline].tl-armed .tl-num { opacity: 1; transform: none; }
+    [data-timeline].tl-armed .tl-line::after { transform: scaleX(1); }
+  }
+
+  .pg-intro { padding: clamp(56px,7vw,96px) 0 0; display: grid; gap: 16px; }
+  .pg-kicker { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700); margin: 0; }
+  .pg-title { font-family: var(--font-heading); font-weight: 800; font-size: clamp(32px,4.4vw,56px); line-height: 1.06; letter-spacing: -0.025em; margin: 0; max-width: 22ch; }
+  .pg-lede { font-size: 16px; line-height: 28px; margin: 0; max-width: 60ch; }
+  nav.nav a[aria-current="page"] { color: var(--color-accent-700); }
+  .tz { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; border-top: 1px solid var(--rule-soft); }
+  .tz a { display: grid; gap: 10px; align-content: start; padding: 32px 28px 36px 0; color: var(--color-text); text-decoration: none; border-bottom: 1px solid var(--rule-soft); position: relative; transition: background-color .3s ease; }
+  .tz a + a { padding-left: 28px; border-left: 1px solid var(--rule-soft); }
+  .tz a:hover { background: #f8f7f7; color: var(--color-text); }
+  .tz-k { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700); }
+  .tz-t { font-family: var(--font-heading); font-weight: 800; font-size: 24px; line-height: 30px; letter-spacing: -0.01em; }
+  .tz-d { font-size: 15px; line-height: 24px; color: #4a4746; max-width: 34ch; }
+  .tz-go { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--color-accent-700); }
+  .tz-go svg { transition: transform .25s ease; }
+  .tz a:hover .tz-go svg { transform: translateX(4px); }
+  .cta { border-top: 1px solid var(--rule-soft); }
+  .cta-in { max-width: 1240px; margin: 0 auto; padding: 40px clamp(20px,5vw,72px); display: flex; gap: 20px 32px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .cta-t { font-family: var(--font-heading); font-weight: 800; font-size: 24px; line-height: 30px; letter-spacing: -0.01em; margin: 0; }
+  .ft { max-width: 1240px; margin: 0 auto; padding: 24px clamp(20px,5vw,72px) 42px; border-top: 1px solid var(--rule-soft); display: flex; gap: 16px 32px; flex-wrap: wrap; justify-content: space-between; font-size: 13px; color: #605d5d; }
+  .ft nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  .ft a { color: #605d5d; } .ft a:hover { color: var(--color-accent-700); }
+  .vd { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: var(--color-neutral-100); }
+  .vd iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 860px) { .tz { grid-template-columns: 1fr; } .tz a + a { padding-left: 0; border-left: 0; } }
+  :root { --rule-soft: #efeded; }
+  :root { --nav-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  nav.nav { position: relative; z-index: 20;
+    background:
+      radial-gradient(closest-side at 50% 50%, rgba(236,48,19,0.07), transparent) 1% -60% / 300px 220px no-repeat,
+      radial-gradient(120% 260% at 0% 0%, rgba(236,48,19,0.035) 0%, rgba(236,48,19,0.012) 28%, transparent 36%),
+      var(--nav-grain) repeat, #ffffff; }
+  .mn-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 15px; color: var(--color-text); }
+  .mn-btn:hover, .mn-btn[aria-expanded="true"] { color: var(--color-accent-700); }
+  .mn-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  .mn-panel { position: absolute; left: 0; right: 0; top: 100%; background: #ffffff; box-shadow: 0 24px 48px rgba(32,30,29,0.10); border-top: 1px solid var(--rule-soft); }
+  .mn-in { max-width: 1240px; margin: 0 auto; padding: 36px clamp(20px,5vw,72px) 44px; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 28px clamp(20px,3vw,40px); }
+  .mn-col { display: grid; gap: 10px; align-content: start; }
+  .mn-col a { color: #4a4746; font-size: 15px; line-height: 22px; text-decoration: none; }
+  .mn-col a:hover { color: var(--color-accent-700); }
+  .mn-col .mn-h { font-family: var(--font-heading); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text); margin-bottom: 4px; }
+  @media (max-width: 860px) { .mn-in { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 520px) { .mn-in { grid-template-columns: 1fr; } }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  @media (max-width: 860px) {
+    nav.nav { flex-wrap: nowrap !important; padding-block: 14px !important; }
+    nav.nav > a:not(.nav-brand) { display: none; }
+    nav.nav .nav-brand img { height: 36px !important; }
+    .mn-btn { margin-left: auto; padding: 10px 0; font-size: 16px; }
+    .mn-panel { max-height: calc(100vh - 64px); overflow-y: auto; }
+    .mn-in { padding-top: 24px; padding-bottom: 32px; gap: 24px; }
+    .mn-col a { font-size: 16px; line-height: 24px; padding: 4px 0; }
+    .cta-in { padding-block: 32px; }
+    .cta-t { font-size: 20px; line-height: 26px; }
+    .tl-step { padding: 24px 20px 20px !important; }
+    .tl-line { display: none; }
+  }
+  .ft-li { display: inline-flex; color: #605d5d; transition: color .2s ease; }
+  .ft-li:hover { color: var(--color-accent); }
+  .ct-li { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; }
+</style>
+</head>
+<body>
+<nav class="nav" style="border-bottom:0; padding-inline:clamp(20px,5vw,72px); padding-block:22px; gap:clamp(20px,3vw,40px); font-size:15px">
+  <a class="nav-brand" href="index.html" style="display:flex; align-items:center"><img src="assets/solar-loop-logo.webp" width="272" height="46" alt="Solar Loop — sustainable PV upgrade" style="display:block; height:46px; width:auto"></a>
+  <a href="index.html" aria-current="page">Accueil</a>
+  <a href="solution.html">Notre solution</a>
+  <a href="a-propos.html">À propos de nous</a>
+  <a href="video.html">Vidéo</a>
+  <a href="contact.html">Contact</a>
+  <button type="button" class="mn-btn" id="mn-btn" aria-expanded="false" aria-controls="mn-panel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h10"/></svg><span>Menu</span></button>
+  <div class="mn-panel" id="mn-panel" hidden>
+    <div class="mn-in">
+      <div class="mn-col"><a class="mn-h" href="index.html">Accueil</a><a href="index.html#etapes">Les 4 étapes</a><a href="index.html#constat">Le constat</a><a href="index.html#decouvrir">Découvrir</a></div>
+      <div class="mn-col"><a class="mn-h" href="solution.html">Notre solution</a><a href="solution.html#activite">Nos trois piliers</a><a href="solution.html#matieres">Matières</a><a href="solution.html#animation">Le panneau, couche par couche</a><a href="solution.html#chiffres">Chiffres clés</a></div>
+      <div class="mn-col"><a class="mn-h" href="a-propos.html">À propos de nous</a><a href="a-propos.html#apropos">L'équipe</a><a href="a-propos.html#fondateurs">Fondateurs</a></div>
+      <div class="mn-col"><a class="mn-h" href="video.html">Vidéo</a><a href="video.html">Prix BCN Innovation 2026</a></div>
+      <div class="mn-col"><a class="mn-h" href="contact.html">Contact</a><a href="contact.html#contact">Formulaire et coordonnées</a></div>
+    </div>
+  </div>
+</nav>
+
+<div data-hero-bg style="position:relative; overflow:hidden; color:#ffffff; background:#1a1d1e url('assets/solarloop-accueil-poster.jpg') center / cover no-repeat">
+<video data-hero-video autoplay muted loop playsinline preload="auto" poster="assets/solarloop-accueil-poster.jpg" aria-hidden="true" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block">
+  <source src="assets/solarloop-accueil.mp4" type="video/mp4">
+</video>
+<div aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(100deg, rgba(14,10,9,0.58) 0%, rgba(14,10,9,0.36) 55%, rgba(14,10,9,0.2) 100%)"></div>
+<section data-wrap style="position:relative; max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,72px)">
+  <div data-hero style="display:grid; gap:22px; padding:96px 0 80px">
+    <p style="font-family:var(--font-heading); font-weight:500; font-stretch:115%; font-size:12px; line-height:20px; letter-spacing:0.22em; text-transform:uppercase; margin:0; color:#ffffff">Smart-cycling&nbsp;: upcycler avant de recycler</p>
+    <h1 style="color:#ffffff; font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:700; font-size:clamp(32px,4.4vw,60px); line-height:1.06; letter-spacing:-0.035em; margin:0; max-width:20ch; text-shadow:0 1px 24px rgba(0,0,0,0.18)">La solution locale et intelligente de recyclage des panneaux solaires.</h1>
+    <p style="font-size:18px; font-weight:400; line-height:30px; letter-spacing:0.005em; margin:0; max-width:52ch; color:#ffffff">Un panneau solaire en fin de vie n'est pas un déchet. Solar Loop assure le repowering durable des installations en fin de vie.</p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px">
+      <a class="btn btn-ghost" href="solution.html">Voir le procédé</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<section data-wrap style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,72px)">
+  <div id="etapes" data-timeline style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-inline:-20px">
+    <div class="tl-step" style="--i:0">
+      <span class="tl-line" aria-hidden="true"></span>
+      <p class="tl-num" aria-label="Étape 01">01</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Collecte des panneaux solaires démontés, via SENS eRecycling et les installateurs.</p>
+    </div>
+    <div class="tl-step" style="--i:1">
+      <span class="tl-line" aria-hidden="true"></span>
+      <p class="tl-num" aria-label="Étape 02">02</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Les panneaux solaires encore performants partent en upcycling pour une nouvelle vie. Le reste est recyclé.</p>
+    </div>
+    <div class="tl-step" style="--i:2">
+      <span class="tl-line" aria-hidden="true"></span>
+      <p class="tl-num" aria-label="Étape 03">03</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Séparation mécanique du verre, de l'aluminium, du cuivre et des polymères.</p>
+    </div>
+    <div class="tl-step" style="--i:3">
+      <span class="tl-line" aria-hidden="true"></span>
+      <p class="tl-num" aria-label="Étape 04">04</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Valorisation et remise en circulation des matériaux.</p>
+    </div>
+  </div>
+  <hr style="height:1px; border:0; margin:0; background:var(--rule-soft)">
+
+  <div id="constat" data-stack style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:28px clamp(24px,5vw,96px); padding:var(--sec) 0">
+    <div>
+      <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 14px">Le constat</p>
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(28px,3.2vw,40px); line-height:1.1; letter-spacing:-0.02em; margin:0">Aujourd'hui, un panneau solaire suisse usagé quitte le pays pour être recyclé.</h2>
+    </div>
+    <div style="display:grid; gap:28px; align-content:start; padding-top:6px">
+      <p style="font-size:16px; line-height:28px; margin:0; max-width:58ch">Les panneaux solaires anciens ou endommagés sont collectés, puis expédiés à l'étranger&nbsp;: la Suisse ne dispose d'aucune installation dédiée. Ce transport émet du CO₂&nbsp;; traiter les panneaux solaires en Suisse améliore leur bilan de cycle de vie. La traçabilité se perd aussi en route, et une partie de la matière n'est jamais valorisée.</p>
+      <p style="font-size:16px; line-height:28px; margin:0; max-width:58ch">Nous traitons ces panneaux localement et de manière responsable. Un panneau solaire n'est pas un déchet&nbsp;: c'est du verre, de l'aluminium, du silicium, du cuivre et quelques grammes d'argent. Conserver un panneau encore performant au lieu de le broyer permet de maximiser son bénéfice environnemental grâce au réemploi. Il peut ainsi être remis en service pour renforcer l'économie circulaire.</p>
+    </div>
+  </div>
+
+
+  <div id="decouvrir" style="padding:0 0 var(--sec)">
+    <div class="tz">
+      <a href="solution.html"><span class="tz-k">Notre solution</span><span class="tz-t">Trois piliers, du tri à l'argent</span><span class="tz-d">Upcycling, recyclage et extraction locale de l'argent.</span><span class="tz-go">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
+      <a href="a-propos.html"><span class="tz-k">À propos de nous</span><span class="tz-t">L'équipe et ses fondateurs</span><span class="tz-d">Deux parcours dans l'industrie photovoltaïque suisse.</span><span class="tz-go">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
+      <a href="video.html"><span class="tz-k">Vidéo</span><span class="tz-t">Solar Loop au Prix BCN Innovation 2026</span><span class="tz-d">Le projet présenté en deux minutes.</span><span class="tz-go">Regarder <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="po" style="color:#ffffff">
+  <svg class="po-waves" id="po-waves" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div style="position:relative; max-width:1240px; margin:0 auto; padding:var(--sec) clamp(20px,5vw,72px)">
+    <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(30px,4.2vw,56px); line-height:1.06; letter-spacing:-0.02em; margin:0 0 0 -0.058em; max-width:26ch">
+      <span style="display:block">Upcycler d'abord.</span>
+      <span style="display:block">Recycler ensuite. Ici.</span>
+    </h2>
+  </div>
+</section>
+
+<section class="cta" aria-label="Contact">
+  <div class="cta-in">
+    <p class="cta-t">Un parc solaire en fin de vie&nbsp;? Parlons-en.</p>
+    <a class="btn btn-primary" href="contact.html">Nous contacter</a>
+  </div>
+</section>
+<footer class="ft">
+  <span>Solar Loop. Recyclage intelligent des panneaux solaires.</span>
+  <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="solution.html">Notre solution</a><a href="a-propos.html">À propos de nous</a><a href="video.html">Vidéo</a><a href="contact.html">Contact</a></nav>
+  <span style="display:flex; align-items:center; gap:16px"><a class="ft-li" href="https://www.linkedin.com/company/solarloop-ch" target="_blank" rel="noopener" aria-label="Solar Loop sur LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span>© 2026</span></span>
+</footer>
+<script>
+(function () {
+  var v = document.querySelector('[data-hero-video]');
+  if (v) {
+    v.muted = true; v.defaultMuted = true;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.pause(); v.removeAttribute('autoplay'); }
+    else { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+  }
+  var drawWaves = function (svg, c1, c2, o1, o2) {
+    if (!svg) return;
+    var NS = 'http://www.w3.org/2000/svg', id = svg.id;
+    var defs = document.createElementNS(NS, 'defs');
+    defs.innerHTML = '<linearGradient id="' + id + 'a" x1="0" x2="1"><stop offset="0" stop-color="' + c1 + '" stop-opacity="0"/><stop offset=".4" stop-color="' + c1 + '"/><stop offset="1" stop-color="' + c1 + '" stop-opacity=".15"/></linearGradient>'
+      + '<linearGradient id="' + id + 'b" x1="0" x2="1"><stop offset="0" stop-color="' + c2 + '" stop-opacity="0"/><stop offset=".55" stop-color="' + c2 + '"/><stop offset="1" stop-color="' + c2 + '" stop-opacity=".5"/></linearGradient>';
+    svg.appendChild(defs);
+    var g = document.createElementNS(NS, 'g'); g.setAttribute('fill', 'none'); g.setAttribute('stroke-width', '1'); svg.appendChild(g);
+    for (var i = 0; i < 46; i++) {
+      var t = i / 45, p1 = document.createElementNS(NS, 'path'), p2 = document.createElementNS(NS, 'path');
+      p1.setAttribute('d', 'M ' + (60 + t*120) + ' ' + (150 + t*60) + ' C 420 ' + (40 + t*40) + ', 820 ' + (90 + t*30) + ', 1440 ' + (300 + t*50));
+      p1.setAttribute('stroke', 'url(#' + id + 'a)'); p1.setAttribute('opacity', (o1 * (0.25 + 0.75 * (1 - Math.abs(t - .5) * 2))).toFixed(3));
+      p2.setAttribute('d', 'M ' + (380 + t*260) + ' 360 C 760 ' + (220 - t*80) + ', 1000 ' + (40 + t*30) + ', 1440 ' + (8 + t*120));
+      p2.setAttribute('stroke', 'url(#' + id + 'b)'); p2.setAttribute('opacity', (o2 * (0.2 + 0.8 * t)).toFixed(3));
+      g.appendChild(p1); g.appendChild(p2);
+    }
+  };
+  drawWaves(document.getElementById('st-waves'), '#ec3013', '#b9b2b0', 0.55, 0.45);
+  drawWaves(document.getElementById('po-waves'), '#ffffff', '#ffffff', 0.32, 0.26);
+  var fd = document.getElementById('fondateurs');
+  if (fd) {
+    var panels = fd.querySelectorAll('.fd-panel'), tags = fd.querySelectorAll('.fd-tag');
+    var show = function (k) {
+      for (var i = 0; i < panels.length; i++) panels[i].classList.toggle('is-on', panels[i].getAttribute('data-k') === k);
+      for (var j = 0; j < tags.length; j++) tags[j].setAttribute('aria-pressed', tags[j].getAttribute('data-k') === k ? 'true' : 'false');
+    };
+    fd.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-k]');
+      if (!t || t.classList.contains('fd-panel')) return;
+      var k = t.getAttribute('data-k');
+      show(t.classList.contains('fd-tag') && t.getAttribute('aria-pressed') === 'true' ? '0' : k);
+    });
+  }
+  var rowsEl = Array.prototype.slice.call(document.querySelectorAll('.pl-row'));
+  if (rowsEl.length) {
+    var hover = null;
+    var setActive = function (el) { rowsEl.forEach(function (r) { r.classList.toggle('is-active', r === el); }); };
+    var pick = function () {
+      if (hover) return setActive(hover);
+      var mid = window.innerHeight * 0.5, best = null, bd = Infinity;
+      rowsEl.forEach(function (r) {
+        var b = r.getBoundingClientRect();
+        var d = Math.abs((b.top + b.bottom) / 2 - mid);
+        if (b.bottom > 0 && b.top < window.innerHeight && d < bd) { bd = d; best = r; }
+      });
+      setActive(best || rowsEl[0]);
+    };
+    rowsEl.forEach(function (r) {
+      r.addEventListener('mouseenter', function () { hover = r; pick(); });
+      r.addEventListener('mouseleave', function () { hover = null; pick(); });
+    });
+    window.addEventListener('scroll', function () { requestAnimationFrame(pick); }, { passive: true });
+    window.addEventListener('resize', pick);
+    pick();
+  }
+  var tl = document.querySelector('[data-timeline]');
+  if (tl && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    tl.classList.add('tl-armed');
+    var io = new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { requestAnimationFrame(function () { tl.classList.add('tl-play'); }); io.disconnect(); }
+    }, { threshold: 0.4 });
+    io.observe(tl);
+  }
+  var f = document.getElementById('sl-anim');
+  window.addEventListener('message', function (e) {
+    var h = e.data && e.data.slAnimHeight;
+    if (f && typeof h === 'number' && Math.abs(h - f.offsetHeight) > 8) f.style.height = h + 'px';
+  });
+  var form = document.getElementById('sl-form'), note = document.getElementById('sl-form-note');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); if (note) note.textContent = 'Message reçu. Réponse sous deux jours ouvrables.'; });
+})();
+</script>
+<script>
+(function () {
+  var b = document.getElementById('mn-btn'), p = document.getElementById('mn-panel');
+  if (!b || !p) return;
+  var set = function (o) { b.setAttribute('aria-expanded', o ? 'true' : 'false'); p.hidden = !o; };
+  b.addEventListener('click', function (e) { e.stopPropagation(); set(p.hidden); });
+  p.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function (e) { if (!p.hidden && !p.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+})();
+</script>
+</body>
+</html>

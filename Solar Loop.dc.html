@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-06974bee-6208-4cad-b2be-1eb2a215c4c7/styles.css">
+<script src="_ds/modernist-06974bee-6208-4cad-b2be-1eb2a215c4c7/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #ffffff; color: var(--color-text); text-wrap: pretty; font-family: var(--font-body); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent); }
+
+  @media (max-width: 860px) {
+    nav.nav { flex-wrap: wrap; row-gap: 6px; padding-block: 12px; }
+    [data-stack] { grid-template-columns: 1fr !important; }
+    [data-pillar] { grid-template-columns: 1fr !important; gap: 10px !important; }
+    [data-founder] { grid-template-columns: 72px minmax(0,1fr) !important; gap: 16px !important; }
+    [data-founder] img { width: 72px !important; height: 72px !important; }
+    [data-row] { grid-template-columns: 1fr !important; gap: 2px !important; }
+    [data-form] { border-left: 0 !important; padding-left: 0 !important; border-top: 1px solid var(--color-neutral-200); padding-top: 32px; }
+    [data-hero] { padding: 64px 0 56px !important; }
+    h1 { max-width: none !important; margin-left: 0 !important; }
+    h1 > span { display: inline !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-hero-video] { display: none !important; } }
+  [data-hero-bg] .btn-ghost { color: #ffffff; border-color: #ffffff; }
+  [data-hero-bg] .btn-ghost:hover { color: #ffffff; background: rgba(255,255,255,0.14); }
+  [data-materials] > div:nth-child(-n+2) { border-top: 0 !important; }
+  @media (max-width: 560px) {
+    [data-materials] > div:nth-child(2) { border-top: 1px solid var(--color-neutral-200) !important; }
+    [data-materials] { grid-template-columns: 1fr !important; }
+    [data-founder] { grid-template-columns: 1fr !important; }
+    [data-founder] img { width: 64px !important; height: 64px !important; }
+  }
+</style>
+</helmet>
+
+<nav class="nav" style="background:#ffffff; border-bottom:1px solid var(--color-neutral-200); padding-inline:clamp(20px,5vw,72px)">
+  <a class="nav-brand" href="#" style="display:flex; align-items:center"><img src="assets/solar-loop-logo.png" alt="Solar Loop — sustainable PV upgrade" style="display:block; height:34px; width:auto"></a>
+  <a href="#activite">Nos trois piliers</a>
+  <a href="#apropos">À propos</a>
+  <a href="#contact">Contact</a>
+  <a href="video.html">Vidéo</a>
+</nav>
+
+<div data-hero-bg style="position:relative; overflow:hidden; color:#ffffff; background:#1a1d1e url('assets/solarloop-accueil-poster.jpg') center / cover no-repeat">
+<video data-hero-video autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" poster="assets/solarloop-accueil-poster.jpg" aria-hidden="true" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block">
+  <source src="assets/solarloop-accueil.mp4" type="video/mp4">
+</video>
+<div aria-hidden="true" style="position:absolute; inset:0; background:rgba(0,0,0,0.35)"></div>
+<section data-wrap style="position:relative; max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,72px)">
+  <div data-hero style="display:grid; gap:28px; padding:104px 0 76px">
+    <h1 style="color:#ffffff; font-family:var(--font-heading); font-weight:800; font-size:clamp(38px,5.9vw,80px); line-height:1.06; letter-spacing:-0.025em; margin:0 0 0 -0.058em; max-width:26ch">
+      <span style="display:block">Un panneau solaire</span>
+      <span style="display:block">en fin de vie n'est pas</span>
+      <span style="display:block">un déchet.</span>
+    </h1>
+    <p style="font-size:19px; line-height:32px; margin:0; max-width:58ch">Solar Loop développe une solution locale et intelligente de recyclage des anciens panneaux solaires, afin d'assurer le repowering durable des installations en fin de vie.</p>
+    <p style="font-family:var(--font-heading); font-weight:800; font-size:17px; line-height:28px; margin:0; letter-spacing:-0.01em">Smart-cycling&nbsp;: upcycler avant de recycler.</p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:4px">
+      <a class="btn btn-primary" href="#activite">Voir le procédé</a>
+      <a class="btn btn-ghost" href="#contact">Annoncer un parc à démanteler</a>
+    </div>
+  </div>
+</section>
+</div>
+
+
+<section data-wrap style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,72px)">
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-inline:-20px">
+    <div style="padding:28px 20px; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 10px; color:var(--color-accent-700)">Étape 01</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Collecte des panneaux solaires démontés, via SENS eRecycling et les installateurs.</p>
+    </div>
+    <div style="padding:28px 20px; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 10px; color:var(--color-accent-700)">Étape 02</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Les panneaux solaires encore performants partent en upcycling pour une nouvelle vie. Le reste est recyclé.</p>
+    </div>
+    <div style="padding:28px 20px; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 10px; color:var(--color-accent-700)">Étape 03</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Séparation mécanique du verre, de l'aluminium, du cuivre et des polymères.</p>
+    </div>
+    <div style="padding:28px 20px; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 10px; color:var(--color-accent-700)">Étape 04</p>
+      <p style="font-size:15px; line-height:26px; margin:0">Valorisation et remise en circulation des matériaux.</p>
+    </div>
+  </div>
+  <hr style="height:1px; border:0; margin:0; background:var(--color-neutral-200)">
+
+  <div data-stack style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:28px clamp(24px,5vw,96px); padding:80px 0 28px">
+    <div>
+      <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 14px">Le constat</p>
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(28px,3.2vw,40px); line-height:1.1; letter-spacing:-0.02em; margin:0">Aujourd'hui, un panneau solaire suisse usagé quitte le pays pour être recyclé.</h2>
+    </div>
+    <div style="display:grid; gap:28px; align-content:start; padding-top:6px">
+      <p style="font-size:16.5px; line-height:30px; margin:0; max-width:58ch">Les panneaux solaires anciens ou endommagés sont collectés, puis expédiés à l'étranger&nbsp;: la Suisse ne dispose d'aucune installation dédiée. Ce transport émet du CO₂&nbsp;; traiter les panneaux solaires en Suisse améliore leur bilan de cycle de vie. La traçabilité se perd aussi en route, et une partie de la matière n'est jamais valorisée.</p>
+      <p style="font-size:16.5px; line-height:30px; margin:0; max-width:58ch">Nous traitons ces panneaux localement et de manière responsable. Un panneau solaire n'est pas un déchet&nbsp;: c'est du verre, de l'aluminium, du silicium, du cuivre et quelques grammes d'argent. Conserver un panneau encore performant au lieu de le broyer permet de maximiser son bénéfice environnemental grâce au réemploi. Il peut ainsi être remis en service pour renforcer l'économie circulaire.</p>
+    </div>
+  </div>
+
+  <hr style="height:1px; border:0; margin:0; background:var(--color-neutral-200)">
+
+  <div id="activite" style="padding:80px 0 56px">
+    <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 42px">Nos trois piliers</p>
+
+    <div data-pillar style="display:grid; grid-template-columns:minmax(56px,96px) minmax(0,280px) minmax(0,1fr); gap:28px clamp(24px,4vw,72px); align-items:baseline; padding:0 0 42px">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:15px; line-height:28px; margin:0; font-feature-settings:'tnum' 1">01</p>
+      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:24px; line-height:30px; letter-spacing:-0.01em; margin:0">Upcycler pour le bâtiment</h3>
+      <p style="font-size:15.5px; line-height:28px; margin:0; max-width:46ch">Les panneaux solaires les plus performants et intacts sont dirigés vers l'upcycling et repartent comme éléments intégrés au bâti (BIPV). Une seconde vie, sans nouvelle production.</p>
+    </div>
+    <div data-pillar style="display:grid; grid-template-columns:minmax(56px,96px) minmax(0,280px) minmax(0,1fr); gap:28px clamp(24px,4vw,72px); align-items:baseline; padding:42px 0; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:15px; line-height:28px; margin:0; font-feature-settings:'tnum' 1">02</p>
+      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:24px; line-height:30px; letter-spacing:-0.01em; margin:0">Recycler</h3>
+      <p style="font-size:15.5px; line-height:28px; margin:0; max-width:46ch">Les panneaux cassés, anciens ou défectueux sont séparés en verre, aluminium, cuivre, polymères, câbles et électronique. Plus de 93&nbsp;% de la matière est réutilisée.</p>
+    </div>
+    <div data-pillar style="display:grid; grid-template-columns:minmax(56px,96px) minmax(0,280px) minmax(0,1fr); gap:28px clamp(24px,4vw,72px); align-items:baseline; padding:42px 0 0; border-top:1px solid var(--color-neutral-200)">
+      <p style="font-family:var(--font-heading); font-weight:800; font-size:15px; line-height:28px; margin:0; font-feature-settings:'tnum' 1">03</p>
+      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:24px; line-height:30px; letter-spacing:-0.01em; margin:0">Extraire l'argent localement</h3>
+      <p style="font-size:15.5px; line-height:28px; margin:0; max-width:46ch">Nous développons notre propre procédé à faibles émissions de CO₂ pour séparer l'argent du silicium. Il génère une production locale d'argent de haute qualité, au service de l'écosystème régional tel que l'horlogerie et la microélectronique.</p>
+    </div>
+  </div>
+
+
+  <hr style="height:1px; border:0; margin:0; background:var(--color-neutral-200)">
+
+  <div data-stack style="display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:32px clamp(24px,5vw,72px); align-items:center; padding:56px 0 0">
+    <div data-materials style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:clamp(20px,3vw,40px)">
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-argent.png" alt="Argent" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Argent</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Récupération et raffinage en Suisse</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-aluminium.png" alt="Aluminium" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Aluminium</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Recyclage des cadres et structures</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-verre.png" alt="Verre" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Verre</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Recyclage en nouveaux matériaux</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-cuivre.png" alt="Cuivre" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Cuivre</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Valorisation des câbles et connexions</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-silicium.png" alt="Silicium" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Silicium</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Réutilisation dans de nouvelles cellules solaires</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:center; padding:20px 0; border-top:1px solid var(--color-neutral-200)">
+          <img src="assets/mat-plastiques.png" alt="Plastiques" style="display:block; width:72px; height:72px; border-radius:50%; object-fit:cover; filter:saturate(0.7) contrast(0.95)">
+          <div>
+            <p style="font-family:var(--font-heading); font-weight:800; font-size:16px; line-height:22px; margin:0 0 4px">Plastiques</p>
+            <p style="font-size:14px; line-height:22px; margin:0; color:#4a4746">Transformation en nouvelles applications</p>
+          </div>
+        </div>
+    </div>
+    <div>
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(24px,2.6vw,32px); line-height:1.14; letter-spacing:-0.015em; margin:0 0 18px; max-width:24ch">Le recyclage des panneaux solaires au service d'un avenir durable</h2>
+      <p style="font-size:16.5px; line-height:30px; margin:0; max-width:40ch">Revaloriser les ressources d'aujourd'hui pour une énergie plus verte demain.</p>
+    </div>
+  </div>
+
+  <div style="padding:56px 0 0">
+    <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 42px">Le panneau solaire, couche par couche</p>
+    <iframe src="animation-matieres.html" title="Démonter un panneau solaire, couche par couche" scrolling="no" loading="lazy" style="display:block; width:100%; border:0; height: {{ animHeight }}"></iframe>
+  </div>
+
+  <hr style="height:1px; border:0; margin:0; background:var(--color-neutral-200)">
+
+  
+
+  <div id="apropos" data-stack style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:28px clamp(24px,5vw,96px); align-items:start; padding:80px 0 42px">
+    <div>
+      <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 14px">À propos</p>
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(28px,3vw,36px); line-height:1.12; letter-spacing:-0.015em; margin:0">Une équipe issue de l'industrie photovoltaïque suisse</h2>
+    </div>
+    <div style="display:grid; gap:24px; align-content:start; padding-top:6px">
+      <p style="font-size:16.5px; line-height:30px; margin:0; max-width:58ch">Solar Loop est une entreprise fondée par deux ingénieurs issus de l'industrie photovoltaïque suisse.</p>
+      <p style="font-size:16.5px; line-height:30px; margin:0; max-width:58ch">Nous accompagnons les installateurs et les exploitants dans leurs projets de repowering&nbsp;: reprise des panneaux solaires démontés, tri, remise en service ou valorisation, et un rapport par chantier indiquant ce qui a été réutilisé.</p>
+    </div>
+  </div><div style="border-top:1px solid var(--color-neutral-200); padding:42px 0 80px">
+    <div>
+      <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 24px">Fondateurs</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:32px clamp(24px,4vw,72px)">
+      <div data-founder style="display:grid; grid-template-columns:96px minmax(0,1fr); gap:20px; align-items:start">
+        <img src="assets/benjamin.jpg" alt="Dr Benjamin Strahm" style="display:block; width:96px; height:96px; object-fit:cover; border-radius:50%">
+        <div>
+          <p style="font-family:var(--font-heading); font-weight:800; font-size:17px; line-height:26px; margin:0 0 6px">Dr Benjamin Strahm</p>
+          <p style="font-size:15px; line-height:26px; margin:0; max-width:42ch">Plus de 20 ans dans l'industrie photovoltaïque&nbsp;: CTO et co-fondateur de MCPV, responsable R&amp;D chez Roth &amp; Rau puis Meyer Burger. Doctorat en physique des plasmas et Master en science des matériaux de l'EPFL.</p>
+        </div>
+      </div>
+      <div data-founder style="display:grid; grid-template-columns:96px minmax(0,1fr); gap:20px; align-items:start">
+        <img src="assets/thomas.jpg" alt="Dr Thomas Söderström" style="display:block; width:96px; height:96px; object-fit:cover; border-radius:50%">
+        <div>
+          <p style="font-family:var(--font-heading); font-weight:800; font-size:17px; line-height:26px; margin:0 0 6px">Dr Thomas Söderström</p>
+          <p style="font-size:15px; line-height:26px; margin:0; max-width:42ch">Fondateur de Ström SA et de Climacy SA, ancien responsable R&amp;D chez Meyer Burger. Doctorat en microtechnique de l'Université de Neuchâtel, Master SIA de l'EPFL et EMBA de l'Université de Saint-Gall.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section style="background:var(--color-accent); color:#ffffff">
+  <div style="max-width:1240px; margin:0 auto; padding:80px clamp(20px,5vw,72px)">
+    <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(30px,4.2vw,56px); line-height:1.06; letter-spacing:-0.02em; margin:0 0 0 -0.058em; max-width:26ch">
+      <span style="display:block">Upcycler d'abord.</span>
+      <span style="display:block">Recycler ensuite. Ici.</span>
+    </h2>
+  </div>
+</section>
+
+<section id="contact" data-wrap style="max-width:1240px; margin:0 auto; padding:80px clamp(20px,5vw,72px) 0">
+  <div data-stack style="display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:42px clamp(24px,5vw,96px); align-items:start">
+    <div>
+      <p style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--color-accent-700); margin:0 0 14px">Contact</p>
+      <h2 style="font-family:var(--font-heading); font-weight:800; font-size:clamp(28px,3vw,36px); line-height:1.12; letter-spacing:-0.015em; margin:0 0 24px">Parlons de votre parc</h2>
+      <p style="font-size:16px; line-height:29px; margin:0 0 32px; max-width:48ch">Type de panneaux solaires, nombre, année d'installation et localisation suffisent pour une première évaluation. Nous répondons avec un plan de tri et une estimation de la valorisation.</p>
+      <div style="display:grid; gap:18px; border-top:1px solid var(--color-neutral-200); padding-top:24px">
+        <div data-row style="display:grid; grid-template-columns:120px minmax(0,1fr); gap:16px; align-items:baseline">
+          <span style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:#605d5d">E-mail</span>
+          <a href="mailto:info@solarloop.ch" style="font-size:16px">info@solarloop.ch</a>
+        </div>
+        <div data-row style="display:grid; grid-template-columns:120px minmax(0,1fr); gap:16px; align-items:baseline">
+          <span style="font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:#605d5d">Interlocuteur</span>
+          <span style="font-size:16px">Dr Benjamin Strahm</span>
+        </div>
+      </div>
+    </div>
+    <form data-form style="display:grid; gap:20px; border-left:1px solid var(--color-neutral-200); padding-left:clamp(24px,4vw,56px)" onSubmit="{{ onSubmit }}">
+      <div class="field">
+        <label for="sl-nom">Nom</label>
+        <input class="input" id="sl-nom" type="text" placeholder="Votre nom">
+      </div>
+      <div class="field">
+        <label for="sl-mail">E-mail</label>
+        <input class="input" id="sl-mail" type="email" placeholder="vous@entreprise.ch">
+      </div>
+      <div class="field">
+        <label for="sl-parc">Installation et nombre de panneaux solaires</label>
+        <input class="input" id="sl-parc" type="text" placeholder="ex. 1,2 MW au sol, 4 100 panneaux, 2009">
+      </div>
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+        <button class="btn btn-primary" type="submit">Demander une évaluation</button>
+        <span style="font-size:13px; color:#605d5d">{{ formNote }}</span>
+      </div>
+    </form>
+  </div>
+  <footer style="margin-top:80px; border-top:1px solid var(--color-neutral-200); padding:24px 0 42px; display:flex; gap:24px; flex-wrap:wrap; justify-content:space-between; font-size:13px; color:#605d5d">
+    <span>Solar Loop. Recyclage intelligent des panneaux solaires.</span>
+    <span>© 2026</span>
+  </footer>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { sent: false, animHeight: 1180 };
+  componentDidMount() {
+    const v = document.querySelector('[data-hero-video]');
+    if (v) {
+      v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('playsinline', '');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {});
+    }
+    this._onMsg = (e) => {
+      const h = e.data && e.data.slAnimHeight;
+      if (typeof h !== "number") return;
+      if (typeof h === "number" && Math.abs(h - this.state.animHeight) > 8) this.setState({ animHeight: h });
+    };
+    window.addEventListener("message", this._onMsg);
+  }
+  componentWillUnmount() { window.removeEventListener("message", this._onMsg); }
+  renderVals() {
+    return {
+      animHeight: this.state.animHeight + "px",
+      formNote: this.state.sent ? "Message reçu. Réponse sous deux jours ouvrables." : "Sans engagement.",
+      onSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
